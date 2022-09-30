@@ -1,0 +1,11 @@
+body {
+    background-color : #907123;
+}
+.card {
+    width: 50vw;
+    height: 50vh;
+    margin-left: 25vw;
+    margin-right: 25vw;
+    margin-top: 25vh;
+    margin-bottom: 25vh;
+}
