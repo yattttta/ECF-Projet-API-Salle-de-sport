@@ -12,6 +12,6 @@ class PartenairesController extends AbstractController
      */
     public function partenaires()
     {
-        
+        return $this->render('PartenairesPage/partenaires.html.twig');
     }
 }
