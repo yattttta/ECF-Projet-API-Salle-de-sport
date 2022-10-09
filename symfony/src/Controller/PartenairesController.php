@@ -12,8 +12,9 @@ class PartenairesController extends AbstractController
     /**
      * @Route("/partenaires")
      */
-    public function partenaires()
+    public function partenaires(UserPasswordHasherInterface $encoder)
     {
+        dd($encoder->hashPassword(new Login(), ''));
         return $this->render('PartenairesPage/partenaires.html.twig');
     }
 }
