@@ -2,7 +2,7 @@ body {
     background-color: brown;
 }
 .bloc {
-    background-color: blue;
+    background-color: green;
     height: 25vh;
 }
 .first {
@@ -10,7 +10,7 @@ body {
     height: 50%;
 }
 .id {
-    background-color: green;
+    background-color: blue;
     height: 100%
 }
 .second {
