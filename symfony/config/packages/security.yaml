@@ -40,7 +40,7 @@ security:
         - { path: ^/index, roles: ROLE_USER }
         - { path: ^/partenaires, roles: ROLE_USER }
         - { path: ^/salledespartenaires, roles: ROLE_USER }
-        - { path: ^/formulaire, roles: ROLE_ADMIN }
+        - { path: ^/form, roles: ROLE_ADMIN }
 
 when@test:
     security:
