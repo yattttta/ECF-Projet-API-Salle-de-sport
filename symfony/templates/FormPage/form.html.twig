@@ -6,11 +6,11 @@
 
 {% block body %}
     {{ form_start(form) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.password) }}
-        <input type="submit">
+        {{ form_row(form.user.email) }}
+        {{ form_row(form.user.password) }} 
+        {{ form_row(form.structure.address) }} 
+        <input type="submit">     
     {{ form_end(form) }}
-    
-    
+
 {% endblock %}
     

@@ -17,9 +17,6 @@ class Franchise
     #[ORM\Column(type: Types::TEXT)]
     private ?string $city = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Login $id_user = null;
 
     public function getId(): ?int
     {
@@ -34,18 +31,6 @@ class Franchise
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getIdUser(): ?Login
-    {
-        return $this->id_user;
-    }
-
-    public function setIdUser(Login $id_user): self
-    {
-        $this->id_user = $id_user;
 
         return $this;
     }

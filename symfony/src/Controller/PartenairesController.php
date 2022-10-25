@@ -13,6 +13,7 @@ class PartenairesController extends AbstractController
      */
     public function partenaires(UserPasswordHasherInterface $encoder)
     {
+        
         return $this->render('PartenairesPage/partenaires.html.twig');
     }
 }

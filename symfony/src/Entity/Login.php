@@ -28,6 +28,10 @@ class Login implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[ORM\OneToOne(inversedBy: 'login', cascade: ['persist', 'remove'])]
+    private ?Structures $structure = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -94,6 +98,18 @@ class Login implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getStructure(): ?Structures
+    {
+        return $this->structure;
+    }
+
+    public function setStructure(?Structures $structure): self
+    {
+        $this->structure = $structure;
 
         return $this;
     }
