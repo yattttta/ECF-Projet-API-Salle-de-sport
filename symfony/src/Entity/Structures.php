@@ -16,7 +16,12 @@ class Structures
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\OneToOne(mappedBy: 'structure', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'structures')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Franchise $franchise = null;
+
+    #[ORM\OneToOne(inversedBy: 'structures', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Login $login = null;
 
 
@@ -37,23 +42,25 @@ class Structures
         return $this;
     }
 
+    public function getFranchise(): ?Franchise
+    {
+        return $this->franchise;
+    }
+
+    public function setFranchise(?Franchise $franchise): self
+    {
+        $this->franchise = $franchise;
+
+        return $this;
+    }
+
     public function getLogin(): ?Login
     {
         return $this->login;
     }
 
-    public function setLogin(?Login $login): self
+    public function setLogin(Login $login): self
     {
-        // unset the owning side of the relation if necessary
-        if ($login === null && $this->login !== null) {
-            $this->login->setStructure(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($login !== null && $login->getStructure() !== $this) {
-            $login->setStructure($this);
-        }
-
         $this->login = $login;
 
         return $this;

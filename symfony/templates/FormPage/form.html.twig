@@ -6,9 +6,10 @@
 
 {% block body %}
     {{ form_start(form) }}
+        {{ form_row(form.franchise.city) }}
         {{ form_row(form.user.email) }}
-        {{ form_row(form.user.password) }} 
-        {{ form_row(form.structure.address) }} 
+        {{ form_row(form.structure.address) }}
+        {{ form_row(form.user.password) }}          
         <input type="submit">     
     {{ form_end(form) }}
 

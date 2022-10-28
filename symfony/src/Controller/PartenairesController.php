@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Login;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +14,7 @@ class PartenairesController extends AbstractController
      */
     public function partenaires(UserPasswordHasherInterface $encoder)
     {
-        
+        dd($encoder->hashPassword(new Login(), 'bordeauxFranchise'));
         return $this->render('PartenairesPage/partenaires.html.twig');
     }
 }

@@ -28,8 +28,11 @@ class Login implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\OneToOne(inversedBy: 'login', cascade: ['persist', 'remove'])]
-    private ?Structures $structure = null;
+    #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
+    private ?Franchise $franchise = null;
+
+    #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
+    private ?Structures $structures = null;
 
 
     public function getId(): ?int
@@ -102,14 +105,36 @@ class Login implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getStructure(): ?Structures
+    public function getFranchise(): ?Franchise
     {
-        return $this->structure;
+        return $this->franchise;
     }
 
-    public function setStructure(?Structures $structure): self
+    public function setFranchise(Franchise $franchise): self
     {
-        $this->structure = $structure;
+        // set the owning side of the relation if necessary
+        if ($franchise->getLogin() !== $this) {
+            $franchise->setLogin($this);
+        }
+
+        $this->franchise = $franchise;
+
+        return $this;
+    }
+
+    public function getStructures(): ?Structures
+    {
+        return $this->structures;
+    }
+
+    public function setStructures(Structures $structures): self
+    {
+        // set the owning side of the relation if necessary
+        if ($structures->getLogin() !== $this) {
+            $structures->setLogin($this);
+        }
+
+        $this->structures = $structures;
 
         return $this;
     }
