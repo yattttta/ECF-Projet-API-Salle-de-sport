@@ -27,6 +27,7 @@ class FormController extends AbstractController
         $user = new Login();
         $franchise = new Franchise();
 
+        //Donner rôle USER à toutes les nouvelles structures créées
         $user->setRoles(["ROLE_USER"]);
 
         $form = $this->createForm(FinalFormType::class, ['structure' => $structure, 'user' => $user, 'franchise' => $franchise]);       
@@ -40,12 +41,14 @@ class FormController extends AbstractController
             $password = $user->getPassword();
             $hash_password = $encoder->hashPassword($user, $password);
             $user->setPassword($hash_password);
-        
+            
+            //Insérer données dans table Login
             $structure->setLogin($user);
             $em = $doctrine->getManager(); 
             $em->persist($user);
             $em->flush();
-        
+            
+            //Récupération des données dans bdd
             try { 
                 $pdo = new PDO('mysql:host=localhost;dbname=fitness', 'root', '');
                 $statement = $pdo->prepare('SELECT id, city FROM franchise WHERE city = :city ');  
@@ -59,18 +62,28 @@ class FormController extends AbstractController
                 echo 'Impossible de récupérer la liste des utilisateurs';
             }
             
-            $data = [
-                'id' => 0,
-                'franchise_id' => $franchiseId['id'],
-                'login_id' => $loginId['MAX(id)'],
-                'address' => $address,
-            ];
-            try {
-                $statement3 = $pdo->prepare('INSERT INTO structures VALUES (:id, :franchise_id, :login_id, :address)');
-                $statement3->execute($data);
+            if ($franchiseId !== false) {
+            //Insérer données dans table Structure
+                $data = [
+                    'id' => 0,
+                    'franchise_id' => $franchiseId['id'],
+                    'login_id' => $loginId['MAX(id)'],
+                    'address' => $address,
+                ];
+                try {
+                    $statement3 = $pdo->prepare('INSERT INTO structures VALUES (:id, :franchise_id, :login_id, :address)');
+                    $statement3->execute($data);
 
-            } catch (PDOException $e) {
-                echo 'Impossible de récupérer la liste des utilisateurs';
+                } catch (PDOException $e) {
+                    echo 'Impossible de récupérer la liste des utilisateurs';
+                }
+                echo 'La structure a bien été ajoutée à la franchise de ' . $franchiseId['city'];         
+            } else {
+                echo 'Cette franchise n\'existe pas';
+                //effacer le login si la franchise n'existe pas
+                $delete = $pdo->prepare('DELETE FROM login WHERE id = :login_id');
+                $delete->bindValue(':login_id', $loginId['MAX(id)']);
+                $delete->execute();
             }
         }
         return $this->render('FormPage/form.html.twig', [

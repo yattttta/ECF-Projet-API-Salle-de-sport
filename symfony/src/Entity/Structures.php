@@ -24,6 +24,10 @@ class Structures
     #[ORM\JoinColumn(nullable: false)]
     private ?Login $login = null;
 
+    #[ORM\ManyToOne(inversedBy: 'structure')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?PermissionsList $permissionsList = null;
+
 
     public function getId(): ?int
     {
@@ -62,6 +66,18 @@ class Structures
     public function setLogin(Login $login): self
     {
         $this->login = $login;
+
+        return $this;
+    }
+
+    public function getPermissionsList(): ?PermissionsList
+    {
+        return $this->permissionsList;
+    }
+
+    public function setPermissionsList(?PermissionsList $permissionsList): self
+    {
+        $this->permissionsList = $permissionsList;
 
         return $this;
     }

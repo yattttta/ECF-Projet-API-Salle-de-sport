@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\UserType;
 use App\Form\StructureType;
+use App\Form\FranchiseType;
+use App\Form\PermissionsType;
 
 class FinalFormType extends AbstractType
 {
@@ -16,6 +18,7 @@ class FinalFormType extends AbstractType
             ->add('user', UserType::class, ['label' => false])
             ->add('structure', StructureType::class, ['label' => false])
             ->add('franchise', FranchiseType::class, ['label' => false])
+            ->add('permissions', PermissionsType::class, ['label' => false])
         ;
     }
 
