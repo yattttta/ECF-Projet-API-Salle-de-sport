@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\PermissionsListRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PermissionsListRepository::class)]
@@ -15,120 +13,98 @@ class PermissionsList
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?bool $drink_sales = null;
+    #[ORM\OneToOne(inversedBy: 'permissionsList', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Structures $structures = null;
 
-    #[ORM\Column]
-    private ?bool $food_sale = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $drinkSales = null;
 
-    #[ORM\Column]
-    private ?bool $members_statistics = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $foodSales = null;
 
-    #[ORM\Column]
-    private ?bool $members_subscription = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $membersStatistics = null;
 
-    #[ORM\Column]
-    private ?bool $payment_schedules = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $membersSubscriptions = null;
 
-    #[ORM\OneToMany(mappedBy: 'permissionsList', targetEntity: Structures::class)]
-    private Collection $structure;
-
-    public function __construct()
-    {
-        $this->structure = new ArrayCollection();
-    }
+    #[ORM\Column(nullable: true)]
+    private ?bool $paymentSchedules = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function isDrinkSales(): ?bool
+    public function getStructures(): ?Structures
     {
-        return $this->drink_sales;
+        return $this->structures;
     }
 
-    public function setDrinkSales(bool $drink_sales): self
+    public function setStructures(Structures $structures): self
     {
-        $this->drink_sales = $drink_sales;
+        $this->structures = $structures;
 
         return $this;
     }
 
-    public function isFoodSale(): ?bool
+    public function isDrinkSales(): ?bool
     {
-        return $this->food_sale;
+        return $this->drinkSales;
     }
 
-    public function setFoodSale(bool $food_sale): self
+    public function setDrinkSales(?bool $drinkSales): self
     {
-        $this->food_sale = $food_sale;
+        $this->drinkSales = $drinkSales;
+
+        return $this;
+    }
+
+    public function isFoodSales(): ?bool
+    {
+        return $this->foodSales;
+    }
+
+    public function setFoodSales(?bool $foodSales): self
+    {
+        $this->foodSales = $foodSales;
 
         return $this;
     }
 
     public function isMembersStatistics(): ?bool
     {
-        return $this->members_statistics;
+        return $this->membersStatistics;
     }
 
-    public function setMembersStatistics(bool $members_statistics): self
+    public function setMembersStatistics(?bool $membersStatistics): self
     {
-        $this->members_statistics = $members_statistics;
+        $this->membersStatistics = $membersStatistics;
 
         return $this;
     }
 
-    public function isMembersSubscription(): ?bool
+    public function isMembersSubscriptions(): ?bool
     {
-        return $this->members_subscription;
+        return $this->membersSubscriptions;
     }
 
-    public function setMembersSubscription(bool $members_subscription): self
+    public function setMembersSubscriptions(?bool $membersSubscriptions): self
     {
-        $this->members_subscription = $members_subscription;
+        $this->membersSubscriptions = $membersSubscriptions;
 
         return $this;
     }
 
     public function isPaymentSchedules(): ?bool
     {
-        return $this->payment_schedules;
+        return $this->paymentSchedules;
     }
 
-    public function setPaymentSchedules(bool $payment_schedules): self
+    public function setPaymentSchedules(?bool $paymentSchedules): self
     {
-        $this->payment_schedules = $payment_schedules;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Structures>
-     */
-    public function getStructure(): Collection
-    {
-        return $this->structure;
-    }
-
-    public function addStructure(Structures $structure): self
-    {
-        if (!$this->structure->contains($structure)) {
-            $this->structure->add($structure);
-            $structure->setPermissionsList($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStructure(Structures $structure): self
-    {
-        if ($this->structure->removeElement($structure)) {
-            // set the owning side to null (unless already changed)
-            if ($structure->getPermissionsList() === $this) {
-                $structure->setPermissionsList(null);
-            }
-        }
+        $this->paymentSchedules = $paymentSchedules;
 
         return $this;
     }

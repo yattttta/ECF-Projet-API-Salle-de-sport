@@ -24,9 +24,9 @@ class Structures
     #[ORM\JoinColumn(nullable: false)]
     private ?Login $login = null;
 
-    #[ORM\ManyToOne(inversedBy: 'structure')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(mappedBy: 'structures', cascade: ['persist', 'remove'])]
     private ?PermissionsList $permissionsList = null;
+
 
 
     public function getId(): ?int
@@ -75,8 +75,13 @@ class Structures
         return $this->permissionsList;
     }
 
-    public function setPermissionsList(?PermissionsList $permissionsList): self
+    public function setPermissionsList(PermissionsList $permissionsList): self
     {
+        // set the owning side of the relation if necessary
+        if ($permissionsList->getStructures() !== $this) {
+            $permissionsList->setStructures($this);
+        }
+
         $this->permissionsList = $permissionsList;
 
         return $this;

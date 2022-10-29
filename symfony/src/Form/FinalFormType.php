@@ -8,7 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\UserType;
 use App\Form\StructureType;
 use App\Form\FranchiseType;
-use App\Form\PermissionsType;
 
 class FinalFormType extends AbstractType
 {

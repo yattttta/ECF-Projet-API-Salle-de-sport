@@ -13,11 +13,11 @@ class PermissionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('drink_sales', CheckboxType::class, ['label_attr' => ['class' => 'switch-custom']])
-            ->add('food_sale')
-            ->add('members_statistics')
-            ->add('members_subscription')
-            ->add('payment_schedules')
+            ->add('drinkSales', CheckboxType::class, ['label' => 'Vente de boissons', 'required' => false, 'label_attr' => ['class' => 'checkbox-switch']])
+            ->add('foodSales', CheckboxType::class, ['label' => 'Vente de nourriture', 'required' => false, 'label_attr' => ['class' => 'checkbox-switch']])
+            ->add('membersStatistics', CheckboxType::class, ['label' => 'Statistiques de membres', 'required' => false, 'label_attr' => ['class' => 'checkbox-switch']])
+            ->add('membersSubscriptions', CheckboxType::class, ['label' => 'Abonnements des membres', 'required' => false, 'label_attr' => ['class' => 'checkbox-switch']])
+            ->add('paymentSchedules', CheckboxType::class, ['label' => 'Calendriers de paiement', 'required' => false, 'label_attr' => ['class' => 'checkbox-switch']])
         ;
     }
 

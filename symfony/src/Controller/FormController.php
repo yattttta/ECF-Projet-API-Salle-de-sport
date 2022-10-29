@@ -3,15 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Franchise;
-use Doctrine\Persistence\ManagerRegistry;
+
 use App\Entity\Login;
+use App\Entity\PermissionsList;
 use App\Entity\Structures;
 use App\Form\FinalFormType;
+use Doctrine\Persistence\ManagerRegistry;
 use PDO;
 use PDOException;
-
-;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,13 +25,15 @@ class FormController extends AbstractController
         $structure = new Structures();
         $user = new Login();
         $franchise = new Franchise();
+        $permissions = new PermissionsList;
+        
 
         //Donner rôle USER à toutes les nouvelles structures créées
         $user->setRoles(["ROLE_USER"]);
 
-        $form = $this->createForm(FinalFormType::class, ['structure' => $structure, 'user' => $user, 'franchise' => $franchise]);       
+        $form = $this->createForm(FinalFormType::class, ['structure' => $structure, 'user' => $user, 'franchise' => $franchise, 'permissions' => $permissions]); 
+             
         $form->handleRequest($request); 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $city = $franchise->getCity();
             $address = $structure->getAddress();
@@ -41,9 +42,10 @@ class FormController extends AbstractController
             $password = $user->getPassword();
             $hash_password = $encoder->hashPassword($user, $password);
             $user->setPassword($hash_password);
-            
+
             //Insérer données dans table Login
             $structure->setLogin($user);
+        
             $em = $doctrine->getManager(); 
             $em->persist($user);
             $em->flush();
@@ -52,18 +54,18 @@ class FormController extends AbstractController
             try { 
                 $pdo = new PDO('mysql:host=localhost;dbname=fitness', 'root', '');
                 $statement = $pdo->prepare('SELECT id, city FROM franchise WHERE city = :city ');  
-                $statement2 = $pdo->prepare('SELECT MAX(id) FROM login');            
+                $statement2 = $pdo->prepare('SELECT MAX(id) FROM login');         
                 $statement->bindValue(':city', $city, PDO::PARAM_STR);
                 $statement->execute();
                 $statement2->execute();
                 $franchiseId = $statement->fetch();
                 $loginId = $statement2->fetch();
             } catch (PDOException $e) {
-                echo 'Impossible de récupérer la liste des utilisateurs';
+                echo 'Impossible de récupérer la liste des utilisateurs 1 ';
             }
-            
-            if ($franchiseId !== false) {
+
             //Insérer données dans table Structure
+            if ($franchiseId !== false) {           
                 $data = [
                     'id' => 0,
                     'franchise_id' => $franchiseId['id'],
@@ -75,12 +77,34 @@ class FormController extends AbstractController
                     $statement3->execute($data);
 
                 } catch (PDOException $e) {
-                    echo 'Impossible de récupérer la liste des utilisateurs';
+                    echo 'Impossible de créer la structure';
                 }
-                echo 'La structure a bien été ajoutée à la franchise de ' . $franchiseId['city'];         
+
+                $statement4 = $pdo->prepare('SELECT MAX(id) FROM structures');
+                $statement4->execute();
+                $structuresId = $statement4->fetch();
+                
+                //Ajouter valeur dans table permissions_list
+                $data2 = [
+                    'id' => 0,
+                    'structures_id' => $structuresId['MAX(id)'],
+                    'drink_sales' => $permissions->isDrinkSales(),
+                    'food_sales' => $permissions->isFoodSales(),
+                    'members_statistics' => $permissions->isMembersStatistics(),
+                    'members_subscriptions' => $permissions->isMembersSubscriptions(),
+                    'payment_schedules' => $permissions->isPaymentSchedules(),
+                ];
+                try {
+                   $statement5 = $pdo->prepare('INSERT INTO permissions_list VALUES (:id, :structures_id, :drink_sales, :food_sales, :members_statistics, :members_subscriptions, :payment_schedules)'); 
+                   $statement5->execute($data2);
+                } catch (PDOException $e) {
+                    echo 'Impossible d\'ajouter des permissions';
+                }
+
+            //effacer le login si la franchise n'existe pas             
             } else {
                 echo 'Cette franchise n\'existe pas';
-                //effacer le login si la franchise n'existe pas
+                
                 $delete = $pdo->prepare('DELETE FROM login WHERE id = :login_id');
                 $delete->bindValue(':login_id', $loginId['MAX(id)']);
                 $delete->execute();
