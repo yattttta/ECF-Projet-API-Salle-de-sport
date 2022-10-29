@@ -34,6 +34,9 @@ class Login implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
     private ?Structures $structures = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $active = null;
+
 
     public function getId(): ?int
     {
@@ -135,6 +138,18 @@ class Login implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->structures = $structures;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }
