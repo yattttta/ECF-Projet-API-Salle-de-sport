@@ -40,10 +40,11 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/index, roles: ROLE_USER }
-        #- { path: ^/partenaires, roles: ROLE_USER }
-        - { path: ^/salledespartenaires, roles: ROLE_USER }
+        - { path: ^/partenaires, roles: ROLE_USER }
+        - { path: ^/sallesDesPartenaires, roles: ROLE_USER }
         - { path: ^/form, roles: ROLE_ADMIN }
-        - { path: ^/contenu, roles: ROLE_ADMIN }
+        - { path: ^/contenu, roles: ROLE_USER }
+        - { path: ^/contenuSalles, roles: ROLE_USER }
 
 when@test:
     security:
