@@ -1,29 +1,28 @@
 $(function() {
-    
-    const test = document.querySelector('input[type=search]')
-    let xhr = new XMLHttpRequest
 
-    test.addEventListener('input', function() {
-        if (document.getElementById("mot").value == "") {
-            document.getElementById("sugg").style.visibility = "hidden"
-        } else {
+    const recherche = document.querySelector('input[type=search]')  
+      
+    recherche.addEventListener('keyup', function() {
+        if(document.getElementById('ville').value == "") {
+            document.getElementById('result').style.visibility = "hidden"
+        } else {    
+            let xhr = new XMLHttpRequest
             xhr.onreadystatechange = function() {
-                if(xhr.readyState == 4 && xhr.status == 200) {
+                if(xhr.readyState == 4 && xhr.status == 200) {  
                     if(xhr.responseText == "") {
-                        document.getElementById("sugg").style.visibility = "hidden"
+                        document.getElementById("result").style.visibility = "hidden"
                     } else {
-                        document.getElementById("sugg").style.visibility = "visible"
-                        document.getElementById("sugg").innerHTML = xhr.responseText
-                    }                   
+                        document.getElementById("result").style.visibility = "visible"    
+                        document.getElementById("result").innerHTML = xhr.responseText
+                    }    
                 } else {
-                    document.getElementById("sugg").innerHTML = "En cours de chargement..."
+                    document.getElementById("result").innerHTML = "En cours de chargement..."
                 }                
-            }
+            } 
             xhr.open("post", "contenu", true)
             xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded")
-            xhr.send("mot=" + document.getElementById("mot").value)
+            xhr.send("ville=" + document.getElementById("ville").value)
         }    
     })
 
 })
-

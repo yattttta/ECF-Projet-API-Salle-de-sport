@@ -19,8 +19,10 @@ body {
 }
 .five {
     background-color: green;
+    height: 75vh;
 }
-.six {
+.card {
+    height: 25vh;
 }
 .seven {
     background-color: red;
