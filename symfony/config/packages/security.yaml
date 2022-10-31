@@ -43,6 +43,7 @@ security:
         #- { path: ^/partenaires, roles: ROLE_USER }
         - { path: ^/salledespartenaires, roles: ROLE_USER }
         - { path: ^/form, roles: ROLE_ADMIN }
+        - { path: ^/contenu, roles: ROLE_ADMIN }
 
 when@test:
     security:

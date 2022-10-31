@@ -1,22 +1,28 @@
 body {
     background-color: brown;
 }
-.bloc {
-    background-color: green;
+.one {
+    background-color: pink;
     height: 25vh;
 }
-.first {
-    background-color: pink;
-    height: 50%;
-}
-.id {
-    background-color: blue;
+.two {
+    background-color: whitesmoke;
     height: 100%
 }
-.second {
+.three {
     background-color: yellow;
-    height: 50%;
+    height: 25%;
 }
-.actif {
+.four {
     background-color: orange;
+    height: 30%;
+}
+.five {
+    background-color: green;
+}
+.six {
+}
+.seven {
+    background-color: red;
+
 }
