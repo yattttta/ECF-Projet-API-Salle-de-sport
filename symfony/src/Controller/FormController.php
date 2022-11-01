@@ -22,6 +22,20 @@ class FormController extends AbstractController
     #[Route('/form', name: 'app_form')]
     public function form(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $encoder): Response
     {
+        if (getenv('JAWSDB_PUCE_URL') !== false) {
+            $dbparts = parse_url(getenv('JAWSDB_PUCE_URL'));
+        
+            $hostname = $dbparts['host'];
+            $username = $dbparts['user'];
+            $password = $dbparts['pass'];
+            $database = ltrim($dbparts['path'], '/');
+        
+        } else {
+            $username = 'root';
+            $password = '';
+            $database = 'fitness';
+            $hostname = 'localhost';
+        }  
         $structure = new Structures();
         $user = new Login();
         $franchise = new Franchise();
@@ -52,7 +66,7 @@ class FormController extends AbstractController
             
             //Récupération des données dans bdd
             try { 
-                $pdo = new PDO('mysql:host=localhost;dbname=fitness', 'root', '');
+                $pdo = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
                 $statement = $pdo->prepare('SELECT id, city FROM franchise WHERE city = :city ');  
                 $statement2 = $pdo->prepare('SELECT MAX(id) FROM login');         
                 $statement->bindValue(':city', $city, PDO::PARAM_STR);
