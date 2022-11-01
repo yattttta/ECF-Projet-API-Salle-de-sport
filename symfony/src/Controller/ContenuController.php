@@ -12,8 +12,22 @@ class ContenuController extends AbstractController
     #[Route(path: '/contenu', name: 'app_contenu')]
     public function contenu()
     {
+        if (getenv('JAWSDB_PUCE_URL') !== false) {
+            $dbparts = parse_url(getenv('JAWSDB_PUCE_URL'));
+        
+            $hostname = $dbparts['host'];
+            $username = $dbparts['user'];
+            $password = $dbparts['pass'];
+            $database = ltrim($dbparts['path'], '/');
+        
+        } else {
+            $username = 'root';
+            $password = '';
+            $database = 'fitness';
+            $hostname = 'localhost';
+        }  
         try {
-            $pdo = new PDO('mysql:host=localhost;dbname=fitness', 'root', '');
+            $pdo = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
             $ville = $_POST["ville"];
             
             $statement = $pdo->prepare('SELECT city, login_id FROM franchise WHERE city like ?');         
