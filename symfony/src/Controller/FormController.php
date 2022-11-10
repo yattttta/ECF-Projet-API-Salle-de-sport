@@ -33,8 +33,8 @@ class FormController extends AbstractController
         $user->setRoles(["ROLE_USER"]);
 
         $form = $this->createForm(FinalFormType::class, ['structure' => $structure, 'user' => $user, 'franchise' => $franchise, 'permissions' => $permissions]); 
-             
         $form->handleRequest($request); 
+
         if ($form->isSubmitted() && $form->isValid()) {
             $city = $franchise->getCity();
             $address = $structure->getAddress();
@@ -51,8 +51,8 @@ class FormController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            if (getenv('JAWSDB_PUCE_URL') !== false) {
-                $dbparts = parse_url(getenv('JAWSDB_PUCE_URL'));
+            if (getenv('JAWSDB_PUCE') !== false) {
+                $dbparts = parse_url(getenv('JAWSDB_PUCE'));
             
                 $hostname = $dbparts['host'];
                 $username = $dbparts['user'];
@@ -93,7 +93,7 @@ class FormController extends AbstractController
                     $statement3->execute($data);
 
                 } catch (PDOException $e) {
-                    echo 'Impossible de créer la structure';
+                    echo 'Impossible de créer la structure <br>';
                 }
 
                 $statement4 = $pdo->prepare('SELECT MAX(id) FROM structures');
