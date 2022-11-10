@@ -51,8 +51,8 @@ class FormController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            if (getenv('JAWSDB_PUCE') !== false) {
-                $dbparts = parse_url(getenv('JAWSDB_PUCE'));
+            if (getenv('DATABASE_URL') !== false) {
+                $dbparts = parse_url(getenv('DATABASE_URL'));
             
                 $hostname = $dbparts['host'];
                 $username = $dbparts['user'];
