@@ -77,7 +77,7 @@ class FormController extends AbstractController
                 $franchiseId = $statement->fetch();
                 $loginId = $statement2->fetch();
             } catch (PDOException $e) {
-                echo 'Impossible de récupérer la liste des utilisateurs 1 ';
+                echo 'Impossible de récupérer la liste des utilisateurs <br>';
             }
 
             //Insérer données dans table Structure
