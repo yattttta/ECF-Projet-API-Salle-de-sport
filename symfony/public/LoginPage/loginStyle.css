@@ -1,11 +1,59 @@
 body {
-    background-color: blue;
+    background: url(salle-de-sport.jpg) no-repeat center fixed;
+    background-size: cover;
+    font-family: Bahnschrift;
+
 }
 .card {
-    width: 30vw;
-    height: 45vh;
+    box-shadow: 0 0 10px #dbd084;
     margin-left: auto;
     margin-right: auto;
     margin-top: 25vh;
     margin-bottom: 25vh;
+}
+h5 {
+    font-size: 72px;
+    background:-webkit-linear-gradient(left, #ca5829 30%, #dbd084 70%);
+    background-clip:text;
+    -webkit-background-clip:text;
+    color:transparent;
+    border-bottom: 1px solid #405d27;
+}
+#inputEmail:focus, #inputPassword:focus {
+    box-shadow: 0 0 5px #83F52C;
+    padding: 5px 0px 5px 5px;
+    margin: 1px 0px 2px 0px;
+    border: 1.5px solid #83F52C;
+    
+}    
+#btn {
+    background: #25D46C;
+    border-color: #83F52C;
+}
+#btn:hover {
+    background: #c0f3af;
+}
+#btn:active {
+    background: #405d27;
+}
+
+@media screen and (max-width: 770px) {
+    .card {
+        width: 55vw;
+    }
+    h5 {
+      font-size: 45px;  
+    }
+}
+
+@media screen and (min-width: 771px) {
+    .card {
+        width: 40vw;
+    }
+}
+
+@media screen and (min-width: 1176px) {
+    .card {
+        width: 23vw;
+    }
 }
