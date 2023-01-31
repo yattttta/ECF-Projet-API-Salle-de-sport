@@ -10,6 +10,11 @@ class IndexController extends AbstractController
     #[Route(path: '/index', name: 'app_index')]
     public function index()
     {
-        return $this->render('IndexPage/index.html.twig');
+
+        $test = array('prenom' => 'christophe', 'nom' => 'patate');
+
+        return $this->render('IndexPage/index.html.twig', array(
+            'message' => $test
+        ));
     }
 }
