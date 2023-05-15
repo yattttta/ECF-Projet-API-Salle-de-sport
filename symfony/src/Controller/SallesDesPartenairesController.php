@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SallesDesPartenairesController extends AbstractController
 {
     #[Route('/sallesDesPartenaires', name: 'app_salles_des_partenaires')]
-    public function index(UserPasswordHasherInterface $encoder): Response
+    public function index(): Response
     {
 
 

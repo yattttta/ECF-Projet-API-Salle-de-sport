@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Franchise;
-
 use App\Entity\Login;
 use App\Entity\PermissionsList;
 use App\Entity\Structures;
@@ -16,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Validator\Constraints\Length;
 
 class FormController extends AbstractController
 {
